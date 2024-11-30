@@ -4,5 +4,5 @@ import kotlinx.coroutines.flow.Flow
 
 interface TimeRepository {
 
-    fun getUpdatedTime(): Flow<String>
+    fun getUpdatedTime(capital: String): Flow<String>
 }

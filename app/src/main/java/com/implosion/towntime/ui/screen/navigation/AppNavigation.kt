@@ -14,6 +14,7 @@ import org.koin.androidx.compose.koinViewModel
 fun AppNavigation() {
     val navController = rememberNavController()
     val viewModel: MainViewModel = koinViewModel()
+
     NavHost(navController = navController, startDestination = Screen.Main.route) {
         composable(Screen.Main.route) { CapitalScreen(navController, viewModel) }
         composable(Screen.CapitalListScreen.route) { CapitalListScreen(navController, viewModel) }

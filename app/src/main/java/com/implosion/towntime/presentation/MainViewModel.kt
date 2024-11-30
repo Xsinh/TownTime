@@ -6,11 +6,14 @@ import androidx.lifecycle.viewModelScope
 import com.implosion.towntime.domain.CapitalModel
 import com.implosion.towntime.domain.repository.CapitalRepository
 import com.implosion.towntime.domain.repository.TimeRepository
+import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
+import kotlinx.coroutines.flow.flatMapLatest
+import kotlinx.coroutines.flow.flowOf
 import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.launch
 
@@ -22,14 +25,18 @@ class MainViewModel(
     private val _capitalMutableState = mutableStateOf<List<CapitalModel>>(emptyList())
     val capitalMutableState = _capitalMutableState
 
-    private val _selectedCapital = MutableStateFlow<String>("")
-    val selectedCapital: StateFlow<String> get() = _selectedCapital.asStateFlow()
+    private val _selectedCapital = MutableStateFlow<CapitalModel?>(null)
+    val selectedCapital: StateFlow<CapitalModel?> get() = _selectedCapital.asStateFlow()
 
-    val timeFlow: Flow<String> = timeRepository
-        .getUpdatedTime()
-        .stateIn(
+    @OptIn(ExperimentalCoroutinesApi::class)
+    val timeFlow: Flow<String> = _selectedCapital
+        .flatMapLatest { capital ->
+            capital.let {
+                timeRepository.getUpdatedTime(it?.timeZone.orEmpty())
+            }
+        }.stateIn(
             viewModelScope,
-            started = SharingStarted.WhileSubscribed(5000),
+            started = SharingStarted.WhileSubscribed(),
             initialValue = "Loading..."
         )
 
@@ -42,14 +49,14 @@ class MainViewModel(
         capitalRepository.saveCapital(capital)
         _selectedCapital.emit(
             capitalRepository
-                .getLastCapital().name
+                .getLastCapital()
         )
     }
 
     private fun getLastChooseCapital() = viewModelScope.launch {
         _selectedCapital.emit(
             capitalRepository
-                .getLastCapital().name
+                .getLastCapital()
         )
     }
 
