@@ -7,10 +7,10 @@ import com.implosion.towntime.domain.repository.TimeRepository
 import org.koin.dsl.module
 
 val repositoryModule = module {
-    factory<CapitalRepository> {
+    single<CapitalRepository> {
         CapitalRepositoryImpl(database = get(), context = get())
     }
-    factory<TimeRepository> {
+    single<TimeRepository> {
         TimeRepositoryImpl(apiService = get())
     }
 }
