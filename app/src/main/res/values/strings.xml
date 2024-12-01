@@ -1,4 +1,10 @@
 <resources>
-    <string name="app_name">TownTime</string>
+    <string name="app_name">Capital Time</string>
     <string name="choose_capital_button">Choose a Сapital</string>
+
+    <string name="capital_moscow">Moscow</string>
+    <string name="capital_stockholm">Stockholm</string>
+    <string name="capital_london">London</string>
+    <string name="capital_berlin">Berlin</string>
+    <string name="capital_paris">Paris</string>
 </resources>

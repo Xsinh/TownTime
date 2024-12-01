@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">Столичное время</string>
+    <string name="choose_capital_button">Выберите столицу</string>
+
+    <string name="capital_moscow">Москва</string>
+    <string name="capital_stockholm">Стокгольм</string>
+    <string name="capital_london">Лондон</string>
+    <string name="capital_berlin">Берлин</string>
+    <string name="capital_paris">Париж</string>
+</resources>

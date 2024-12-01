@@ -50,7 +50,7 @@ class CapitalRepositoryImpl(
         val isFirstRun = checkFirstRun()
 
         if (isFirstRun) {
-            capitals.forEach { capitalModel ->
+            context.capitals().forEach { capitalModel ->
                 database
                     .capitalDao()
                     .insert(capitalModel.toDTO())
